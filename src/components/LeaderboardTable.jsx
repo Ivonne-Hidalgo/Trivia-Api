@@ -8,7 +8,7 @@ const LeaderboardTable = ({ leaders }) => (
     <Column field="nickname" header="Nickname" />
     <Column field="points" header="Points" />
     <Column field="difficulty" header="Difficulty" />
-    <Column field="Winner Places" header="Winner Places" />
+    {/* <Column field="Winner Places" header="Winner Places" /> */}
 
   </DataTable>
 );

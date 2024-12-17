@@ -7,48 +7,69 @@ const Home = () => {
   const [nickname, setNickname] = useState("");
   const [difficulty, setDifficulty] = useState("easy");
   const [leaders, setLeaders] = useState([]);
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
-    setLeaders(getLeaders());
+    const fetchedLeaders = getLeaders();
+    setLeaders(fetchedLeaders);
   }, []);
 
   const handlePlay = () => {
-    
     if (nickname) {
-      saveLeader(nickname, 0,difficulty );
-      navigate("/quiz", { state: { nickname, difficulty } });
+      saveLeader(nickname, 0, difficulty);
+      navigate("/Questions", { state: { nickname, difficulty } });
     } else {
-      alert("Por favor ingresa un nickname.");
+      setError("Por favor ingresa un nickname.");
     }
   };
 
   return (
     <div>
-      <h1>Reto Trivia</h1>
-      <LeaderboardTable leaders={leaders} />
+      <header style={{ backgroundColor: "orange", padding: "20px", color: "white", textAlign: "center" }}>
+        <h1 style={{ fontSize: "2.5em" }}>Trivia Game</h1>
+      </header>
 
-      <div>
-        <input
-          type="text"
-          value={nickname}
-          onChange={(e) => setNickname(e.target.value)}
-          placeholder="Ingresa tu nickname"
-        />
-        <br />
-        <br />
-        <select
-          value={difficulty}
-          onChange={(e) => setDifficulty(e.target.value)}
-        >
-          <option value="easy">Fácil</option>
-          <option value="medium">Intermedio</option>
-          <option value="hard">Difícil</option>
-        </select>
-        <br />
-        <br />
-        <button onClick={handlePlay}>Jugar</button>
-      </div>
+      <main style={{ padding: "20px", textAlign: "center" }}>
+        <LeaderboardTable leaders={leaders} />
+
+        <div style={{ margin: "20px 0" }}>
+          <input
+            type="text"
+            value={nickname}
+            onChange={(e) => {
+              setNickname(e.target.value);
+              setError(""); 
+            }}
+            placeholder="Ingresa tu nickname"
+            style={{ fontSize: "1 em", padding: "10px", width: "300px" }} 
+          />
+          {error && <p style={{ color: "red" }}>{error}</p>} {/* Mensaje de error */}
+          <br />
+          <br />
+          <select
+            value={difficulty}
+            onChange={(e) => setDifficulty(e.target.value)}
+            style={{ fontSize: "1 em", padding: "10px", width: "150px" }} 
+          >
+            <option value="easy">Easy</option>
+            <option value="medium">Medium</option>
+            <option value="hard">Hard</option>
+          </select>
+          <br />
+          <br />
+          <button
+            onClick={handlePlay}
+            style={{ fontSize: "1 em", padding: "10px 20px" }} 
+          >
+            Jugar
+          </button>
+        </div>
+      </main>
+
+      <footer style={{ backgroundColor: "orange", padding: "20px", color: "white", textAlign: "center" }}>
+        <p>© 2024 Reto Trivia. Todos los derechos reservados.</p>
+      </footer>
     </div>
   );
 };
